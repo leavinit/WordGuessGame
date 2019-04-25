@@ -17,9 +17,15 @@
 // Save any of your game's functions as methods, and call them underneath your object declaration using event listeners.
 
 
+
+
 //utitlity printing function for testing
 prt = function(item){
-    document.write("<p>"+ item + "</p>");
+    var targetDiv = document.getElementById("gameDiv");
+    var p = document.createElement("p");
+    p.textContent = item;
+    targetDiv.append(p);
+    // console.log('printing');  //Testing
 }
 
 
@@ -28,48 +34,96 @@ prt = function(item){
 var  state = {
 //VARS
     //list of pontential words to guess (might want to generate this list dynamically in the future)
-    words       :   ["hello", "goodbye", "feather", "color", "gone", "arrive"],
+    words               :   ["hello", "goodbye", "feather", "color", "gone", "arrive"],
 
     //wins total (this session)
-    wins        :   0,
+    wins                :   0,
     //the word to guess
-    word        :   "",
+    word                :   "",
     //letters guessed
-    guessed     :   "",
+    alreadyGuessed      :   "",
+    //correct guesses
+    correctGuesses      :   "",
     //guesses remaining
-    remaining   :   10,
+    remainingGuesses    :   10,
+
+
 
 
 //METHODS
     //Display "press any key to start"
-    startGame   : function(){
+    startGame           : function(guess){
         // Display press any key
 
         //Set the word for this round
         this.getNewWord();
+        console.log(this.word);
+        this.displayBoard();
+        this.processGuess(guess);
     },
     //Fetch a new word
-    getNewWord  : function(){
+    getNewWord          : function(){
         this.word = this.words.shift();
-        prt("REMAINING WORDS: " + this.words);
+        console.log("REMAINING WORDS: " + this.words);
     },
     //Display game board (empty spaces for unguessed letters)
-    displayBoard :  function(){
+    displayBoard        :  function(){
         board = "";
         for (i in this.word){
-            board += "  ___  ";
+            //If letter is in correct guesses, print the letter
+            if (this.correctGuesses.includes(this.word[i])){
+                board += "   " + word[i] + "   ";
+            }
+            else {
+                //Else print the blank space
+                board += "  ___  ";
+                
+            }
+            
         }
-        prt(board);
+        //console.log("blank space"); //testing
+        console.log(board);
     },
+    
     //Display guess, takes a letter guessed as an input
-    displayGuess : function(guess){
-        prt("Guessed letter: " + guess)
+    processGuess        : function(guess){
+        console.log("Guessed letter: " + guess)
+        console.log("GUESSED LETTERS: " + this.alreadyGuessed);
         
-        //Get guessed letter via Jquery
-        if (this.word.includes(guess)){
-            prt("GUESS WAS IN THE WORD");
+        //Check for repeat guesses
+        if (this.alreadyGuessed.includes(guess)){
+            console.log("ALREADY GUESSED THAT TRY AGAIN <br>LETTERS GUESSED: "+
+            this.alreadyGuessed);
         }
-        else prt("Not IN THE WORD");
+        else {
+            //Update list of letters already guessed
+            this.alreadyGuessed += guess;
+            console.log("ALREADY GUESSED LETTERS :" + this.alreadyGuessed);
+        }
+
+        //Check if letter guessed is in word to guess
+        if (this.word.includes(guess)){
+            console.log("GUESS WAS IN THE WORD");
+            //Update string of correct guesses
+            this.correctGuess += guess;
+            console.log("Restarting");  //testing
+            //Keep game going, need to add check to see if word is solved
+        }
+        else {
+            //Guess wasnt in the word, nor already guessed, decrement remaining trys
+            this.remainingGuesses -= 1;
+            console.log("Not IN THE WORD");
+             //If guesses remaining, keep game going
+            if(this.remainingGuesses > 0){
+                console.log("Restarting");  //testing
+            }
+            else {
+                console.log("Game OVER"); //GAME IS OVER testing
+            }
+            
+        }
+        
+
     }
     //Update game state (letters guessed, guesses remaining, win if game won)
 
@@ -79,16 +133,20 @@ var  state = {
 
 
 
-state.startGame();
-prt(state.word);
-state.displayBoard();  
+//VAR To Check Whether Game Has Started
+var playing = false;
+$("#body").text ("press any key");
 
 $("body").keyup(
     function(event){
         //event.which is a keycode, and needs to be translated
-        key_pressed = String.fromCharCode(event.which).toLowerCase();
-;
-        state.displayGuess(key_pressed);
+        key_pressed = String.fromCharCode(event.which).toLowerCase();        
+        console.log('key pressed'+ key_pressed);
+        
+        state.startGame(key_pressed);
     }
 );
+ 
+
+
 
