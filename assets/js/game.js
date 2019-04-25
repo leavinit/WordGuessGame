@@ -19,7 +19,7 @@
 
 //utitlity printing function for testing
 prt = function(item){
-    document.write("<p>"+ item + "</p></br>");
+    document.write("<p>"+ item + "</p>");
 }
 
 
@@ -52,16 +52,43 @@ var  state = {
     getNewWord  : function(){
         this.word = this.words.shift();
         prt("REMAINING WORDS: " + this.words);
+    },
+    //Display game board (empty spaces for unguessed letters)
+    displayBoard :  function(){
+        board = "";
+        for (i in this.word){
+            board += "  ___  ";
+        }
+        prt(board);
+    },
+    //Display guess, takes a letter guessed as an input
+    displayGuess : function(guess){
+        prt("Guessed letter: " + guess)
+        
+        //Get guessed letter via Jquery
+        if (this.word.includes(guess)){
+            prt("GUESS WAS IN THE WORD");
+        }
+        else prt("Not IN THE WORD");
     }
-    //Display board
-    
-    //Display guess
-
     //Update game state (letters guessed, guesses remaining, win if game won)
 
 
 }
 
 
+
+
 state.startGame();
 prt(state.word);
+state.displayBoard();  
+
+$("body").keyup(
+    function(event){
+        //event.which is a keycode, and needs to be translated
+        key_pressed = String.fromCharCode(event.which).toLowerCase();
+;
+        state.displayGuess(key_pressed);
+    }
+);
+
