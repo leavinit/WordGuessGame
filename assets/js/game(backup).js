@@ -29,63 +29,52 @@ prt = function(item){
 }
 
 
-//GAME STATE CLASS (Contains all methods and properties for the game)
+//GAME STATE OBJECT (Contains all methods and properties for the game)
 
-class  state {
-
-    constructor(){
-        this.playing = false;
-        
-        var target = document.getElementById("gameDiv");
-        target.textContent = "PRESS ANY KEY TO BEGIN";
-
-        this.getNewWord();
-        this.displayBoard();
-        
-    }
+var  state = {
 //VARS
     //See if the game is started
-    playing = false;
+    playing             :   false,
     //list of pontential words to guess (might want to generate this list dynamically in the future)
-    words = ["hello", "goodbye", "feather", "color", "gone", "arrive"];
+    words               :   ["hello", "goodbye", "feather", "color", "gone", "arrive"],
 
     //wins total (this session)
-    wins = 0;
+    wins                :   0,
     //the word to guess
-    word =  "";
+    word                :   "",
     //letters guessed
-    alreadyGuessed = "";
+    alreadyGuessed      :   "",
     //correct guesses
-    correctGuesses  = "";
+    correctGuesses      :   "",
     //guesses remaining
-    remainingGuesses = 10;
+    remainingGuesses    :   10,
 
 
 
 
 //METHODS
     //Display "press any key to start"
-    startGame = function(guess){
-                
-        console.log(this.word);
-        this.processGuess(guess);
-        this.displayBoard();
+    startGame           : function(guess){
+        // Display press any key
 
-    };
+        //Set the word for this round
+        this.getNewWord();
+        console.log(this.word);
+        this.displayBoard();
+        this.processGuess(guess);
+    },
     //Fetch a new word
-    getNewWord = function(){
+    getNewWord          : function(){
         this.word = this.words.shift();
         console.log("REMAINING WORDS: " + this.words);
-    };
-    
+    },
     //Display game board (empty spaces for unguessed letters)
-    displayBoard = function(){
-        var board = "";
-        console.log("Correct guesses =" + this.correctGuesses)
-        for (let i in this.word){
+    displayBoard        :  function(){
+        board = "";
+        for (i in this.word){
             //If letter is in correct guesses, print the letter
             if (this.correctGuesses.includes(this.word[i])){
-                board += "   " + this.word[i] + "   ";
+                board += "   " + word[i] + "   ";
             }
             else {
                 //Else print the blank space
@@ -96,13 +85,10 @@ class  state {
         }
         //console.log("blank space"); //testing
         console.log(board);
-        
-        var target = document.getElementById("boardDiv");
-        target.textContent = board;
-    };
+    },
     
     //Display guess, takes a letter guessed as an input
-    processGuess = function(guess){
+    processGuess        : function(guess){
         console.log("Guessed letter: " + guess)
         console.log("GUESSED LETTERS: " + this.alreadyGuessed);
         
@@ -121,7 +107,7 @@ class  state {
         if (this.word.includes(guess)){
             console.log("GUESS WAS IN THE WORD");
             //Update string of correct guesses
-            this.correctGuesses += guess;
+            this.correctGuess += guess;
             console.log("Restarting");  //testing
             //Keep game going, need to add check to see if word is solved
         }
@@ -153,20 +139,13 @@ class  state {
 var playing = false;
 $("#body").text ("press any key");
 
-game = new state;    
-
 $("body").keyup(
     function(event){
         //event.which is a keycode, and needs to be translated
-        key_pressed = String.fromCharCode(event.which).toLowerCase();
-        if(game.playing){        
-            game.startGame(key_pressed);
-        }
-        else{
-            game.playing = true;
-            // Clear any key screen
-            document.getElementById("gameDiv").textContent= "WORD GUESS GAME"
-        }
+        key_pressed = String.fromCharCode(event.which).toLowerCase();        
+        console.log('key pressed'+ key_pressed);
+        
+        state.startGame(key_pressed);
     }
 );
  
