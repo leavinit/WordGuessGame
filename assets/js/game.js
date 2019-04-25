@@ -41,7 +41,9 @@ class  state {
 
         this.getNewWord();
         this.displayBoard();
-        
+        this.remainingGuesses = 10;
+        document.getElementById("guessesLeftDiv").textContent = 
+            "REMAINING GUESSES: " + this.remainingGuesses;
     }
 //VARS
     //See if the game is started
@@ -108,12 +110,16 @@ class  state {
         
         //Check for repeat guesses
         if (this.alreadyGuessed.includes(guess)){
-            console.log("ALREADY GUESSED THAT TRY AGAIN <br>LETTERS GUESSED: "+
+            document.getElementById("guessedDiv").textContent =
+            "ALREADY GUESSED THAT TRY AGAIN" ;
+            console.log("ALREADY GUESSED THAT TRY AGAIN LETTERS GUESSED: "+
             this.alreadyGuessed);
         }
         else {
             //Update list of letters already guessed
             this.alreadyGuessed += guess;
+            document.getElementById("guessedDiv").textContent =
+            "ALREADY GUESSED LETTERS :" + this.alreadyGuessed; 
             console.log("ALREADY GUESSED LETTERS :" + this.alreadyGuessed);
         }
 
@@ -132,9 +138,14 @@ class  state {
              //If guesses remaining, keep game going
             if(this.remainingGuesses > 0){
                 console.log("Restarting");  //testing
+                document.getElementById("guessesLeftDiv").textContent = 
+                "REMAINING GUESSES: " + this.remainingGuesses;
+
             }
             else {
                 console.log("Game OVER"); //GAME IS OVER testing
+                document.getElementById("guessesLeftDiv").textContent = "GAME OVER TRY AGAIN";
+
             }
             
         }
@@ -150,7 +161,7 @@ class  state {
 
 
 //VAR To Check Whether Game Has Started
-var playing = false;
+
 $("#body").text ("press any key");
 
 game = new state;    
