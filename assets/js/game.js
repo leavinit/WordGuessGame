@@ -36,14 +36,14 @@ class  state {
     constructor(){
         this.playing = false;
         
-        var target = document.getElementById("gameDiv");
+        var target = document.getElementById("guessesLeftDiv");
         target.textContent = "PRESS ANY KEY TO BEGIN";
 
         this.getNewWord();
         this.displayBoard();
         this.remainingGuesses = 10;
-        document.getElementById("guessesLeftDiv").textContent = 
-            "REMAINING GUESSES: " + this.remainingGuesses;
+        // document.getElementById("guessesLeftDiv").textContent = 
+        //     "REMAINING GUESSES: " + this.remainingGuesses;
     }
 //VARS
     //See if the game is started
@@ -53,6 +53,8 @@ class  state {
 
     //wins total (this session)
     wins = 0;
+    //losses total
+    losses = 0;
     //the word to guess
     word =  "";
     //letters guessed
@@ -83,11 +85,24 @@ class  state {
     //Display game board (empty spaces for unguessed letters)
     displayBoard = function(){
         var board = "";
+        var timesCorrect = 0;
         console.log("Correct guesses =" + this.correctGuesses)
         for (let i in this.word){
             //If letter is in correct guesses, print the letter
             if (this.correctGuesses.includes(this.word[i])){
                 board += "   " + this.word[i] + "   ";
+                timesCorrect ++;
+                //ESSENTIAL CHECK TO VERIFY CORRECT GUESS
+                if (timesCorrect == this.word.length){
+                    document.getElementById("guessesLeftDiv").textContent = 
+                        "YOU WIN, CONGRATS!! ";
+                    this.wins++;
+                    console.log (this.wins + "= wins");
+                    document.getElementById("winsLossesDiv").textContent =
+                    "Wins: " + this.wins +" Losses:  "+this.losses;
+                    //Reset game with empty board
+                    this.resetGame();
+                }
             }
             else {
                 //Else print the blank space
@@ -96,9 +111,7 @@ class  state {
             }
             
         }
-        //console.log("blank space"); //testing
-        console.log(board);
-        
+        console.log(board);        
         var target = document.getElementById("boardDiv");
         target.textContent = board;
     };
@@ -145,27 +158,46 @@ class  state {
             else {
                 console.log("Game OVER"); //GAME IS OVER testing
                 document.getElementById("guessesLeftDiv").textContent = "GAME OVER TRY AGAIN";
-
+                this.losses++;
+                console.log (this.losses + "= losses");
+                document.getElementById("winsLossesDiv").textContent =
+                    "Wins: " + this.wins +" Losses:  "+this.losses;
+                this.resetGame();
             }
             
         }
         
-
     }
-    //Update game state (letters guessed, guesses remaining, win if game won)
+    //function to reset the game and start again w/ a new word
 
+    resetGame = function(){
+
+        // //wins total (this session)
+        // this.wins = 0;
+        // //losses total
+        // this.losses = 0;
+        //the word to guess
+        this.word =  "";
+        //letters guessed
+        this.alreadyGuessed = "";
+        //correct guesses
+        this.correctGuesses  = "";
+        //guesses remaining
+        this.remainingGuesses = 10;
+        this.playing = false;
+        var target = document.getElementById("guessesLeftDiv");
+        target.textContent = "PRESS ANY KEY TO BEGIN";
+
+        
+        this.getNewWord();
+        this.displayBoard();
+                
+    }
 
 }
 
-
-
-
-//VAR To Check Whether Game Has Started
-
-$("#body").text ("press any key");
-
 game = new state;    
-
+document.getElementById("gameDiv").textContent= "WORD GUESS GAME" ;
 $("body").keyup(
     function(event){
         //event.which is a keycode, and needs to be translated
@@ -174,9 +206,11 @@ $("body").keyup(
             game.startGame(key_pressed);
         }
         else{
+            game.displayBoard();
             game.playing = true;
-            // Clear any key screen
-            document.getElementById("gameDiv").textContent= "WORD GUESS GAME"
+            document.getElementById("guessesLeftDiv").textContent = 
+                "REMAINING GUESSES: " + game.remainingGuesses;
+
         }
     }
 );
