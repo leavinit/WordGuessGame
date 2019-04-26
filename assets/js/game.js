@@ -82,14 +82,16 @@ class  state {
                 timesCorrect ++;
                 //ESSENTIAL CHECK TO VERIFY CORRECT GUESS
                 if (timesCorrect == this.word.length){
-                    document.getElementById("guessesLeftDiv").textContent = 
+                    document.getElementById("guessedDiv").textContent = 
                         "YOU WIN, CONGRATS!! ";
+                    // alert("You Win! Congrats!");
                     this.wins++;
                     console.log (this.wins + "= wins");
                     document.getElementById("winsLossesDiv").textContent =
                     "Wins: " + this.wins +" Losses:  "+this.losses;
                     //Reset game with empty board
                     this.resetGame();
+                    
                 }
             }
             else {
@@ -147,6 +149,7 @@ class  state {
                 
                 console.log("Game OVER"); //GAME IS OVER testing
                 document.getElementById("guessedDiv").textContent = "GAME OVER TRY AGAIN";
+                //alert("YOU LOSE");
                 this.losses++;
                 console.log (this.losses + "= losses");
                 document.getElementById("winsLossesDiv").textContent =
@@ -195,7 +198,7 @@ $("body").keydown(
             game.startGame(key_pressed);
         }
         else{
-            document.getElementById("guessedDiv").textContent = "";
+            
             game.displayBoard();
             game.playing = true;
             document.getElementById("guessesLeftDiv").textContent = 
