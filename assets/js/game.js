@@ -84,8 +84,8 @@ class  state {
                 if (timesCorrect == this.word.length){
                     document.getElementById("guessedDiv").textContent = 
                         "YOU WIN, CONGRATS!! ";
-                    // alert("You Win! Congrats!");
-                    this.playSound(); //test
+                    // PlAy a victory tune
+                    this.playSoundWin(); 
                     this.wins++;
                     console.log (this.wins + "= wins");
                     document.getElementById("winsLossesDiv").textContent =
@@ -151,6 +151,7 @@ class  state {
                 console.log("Game OVER"); //GAME IS OVER testing
                 document.getElementById("guessedDiv").textContent = "GAME OVER TRY AGAIN";
                 //alert("YOU LOSE");
+                this.playSoundLose();
                 this.losses++;
                 console.log (this.losses + "= losses");
                 document.getElementById("winsLossesDiv").textContent =
@@ -162,10 +163,15 @@ class  state {
         
     }
     //UTILITY METHODS
-    playSound = function(){
+    playSoundWin = function(){
         var snd = new Audio("assets/sounds/ice-cubes-glass-daniel_simon.wav"); // buffers automatically when created
         snd.play();
     }
+    playSoundLose = function(){
+        var snd = new Audio("assets/sounds/loss.wav"); // buffers automatically when created
+        snd.play();
+    }
+
     //function to reset the game and start again w/ a new word
 
     resetGame = function(){
