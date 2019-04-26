@@ -85,6 +85,7 @@ class  state {
                     document.getElementById("guessedDiv").textContent = 
                         "YOU WIN, CONGRATS!! ";
                     // alert("You Win! Congrats!");
+                    this.playSound(); //test
                     this.wins++;
                     console.log (this.wins + "= wins");
                     document.getElementById("winsLossesDiv").textContent =
@@ -159,6 +160,11 @@ class  state {
             
         }
         
+    }
+    //UTILITY METHODS
+    playSound = function(){
+        var snd = new Audio("assets/sounds/ice-cubes-glass-daniel_simon.wav"); // buffers automatically when created
+        snd.play();
     }
     //function to reset the game and start again w/ a new word
 
