@@ -1,15 +1,17 @@
 
 body {
     width : 80%;
-    height: 90%;
-    margin:auto;
+
+    margin: auto;
     border: 2px solid #5f5f5f;
-    margin-top: .5%;
+    margin-top: 4.5%;
     margin-bottom: .5%;
+
+    background-color: rgb(6, 27, 48);
 }
 #gameDiv {
     background-color: #0A5199;
-    padding: 50px;
+    padding: 30px;
     font-family: "Courier New", Courier, monospace;
     font-size: 4em;
     text-align: center;
@@ -20,16 +22,16 @@ body {
 
 #boardDiv{
     background-color: #D81C00;
-    padding: 50px;
+    padding: 30px;
     font-family: "Courier New", Courier, monospace;
-    font-size: 2em;
+    font-size: 3.5em;
     
     text-align: center;
 }
 
 #guessedDiv{
     background-color: #D86500;
-    padding: 50px;
+    padding: 30px;
     text-align: center;
     font-size: 2em;
 }
@@ -37,13 +39,14 @@ body {
 #guessesLeftDiv{
     background-color: #0A5199;
     color: azure;
-    padding: 50px;
+    padding: 30px;
     font-size: 2em; 
     text-align: center;
 }
 
 #winsLossesDiv{
     background-color: #0A5199;
-    padding: 50px;
+    padding: 30px;
     color: azure;
+    font-size: 1.5em;
 }
