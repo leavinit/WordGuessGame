@@ -18,17 +18,6 @@
 
 
 
-
-//utitlity printing function for testing
-prt = function(item){
-    var targetDiv = document.getElementById("gameDiv");
-    var p = document.createElement("p");
-    p.textContent = item;
-    targetDiv.append(p);
-    // console.log('printing');  //Testing
-}
-
-
 //GAME STATE CLASS (Contains all methods and properties for the game)
 
 class  state {
@@ -42,8 +31,6 @@ class  state {
         this.getNewWord();
         this.displayBoard();
         this.remainingGuesses = 10;
-        // document.getElementById("guessesLeftDiv").textContent = 
-        //     "REMAINING GUESSES: " + this.remainingGuesses;
     }
 //VARS
     //See if the game is started
@@ -72,6 +59,7 @@ class  state {
     startGame = function(guess){
                 
         console.log(this.word);
+        //Repaint wins and losses
         this.processGuess(guess);
         this.displayBoard();
 
@@ -90,7 +78,7 @@ class  state {
         for (let i in this.word){
             //If letter is in correct guesses, print the letter
             if (this.correctGuesses.includes(this.word[i])){
-                board += "   " + this.word[i] + "   ";
+                board += " _" + this.word[i] + "_ ";
                 timesCorrect ++;
                 //ESSENTIAL CHECK TO VERIFY CORRECT GUESS
                 if (timesCorrect == this.word.length){
@@ -156,8 +144,9 @@ class  state {
 
             }
             else {
+                
                 console.log("Game OVER"); //GAME IS OVER testing
-                document.getElementById("guessesLeftDiv").textContent = "GAME OVER TRY AGAIN";
+                document.getElementById("guessedDiv").textContent = "GAME OVER TRY AGAIN";
                 this.losses++;
                 console.log (this.losses + "= losses");
                 document.getElementById("winsLossesDiv").textContent =
@@ -172,10 +161,6 @@ class  state {
 
     resetGame = function(){
 
-        // //wins total (this session)
-        // this.wins = 0;
-        // //losses total
-        // this.losses = 0;
         //the word to guess
         this.word =  "";
         //letters guessed
@@ -187,18 +172,22 @@ class  state {
         this.playing = false;
         var target = document.getElementById("guessesLeftDiv");
         target.textContent = "PRESS ANY KEY TO BEGIN";
-
         
+        
+        //Updates with a new word from the word list
         this.getNewWord();
         this.displayBoard();
-                
+        // document.getElementById("guessedDiv").textContent = "";        
     }
 
 }
 
 game = new state;    
 document.getElementById("gameDiv").textContent= "WORD GUESS GAME" ;
-$("body").keyup(
+document.getElementById("winsLossesDiv").textContent =
+                "Wins: " + game.wins +" Losses:  "+game.losses;
+        
+$("body").keydown(
     function(event){
         //event.which is a keycode, and needs to be translated
         key_pressed = String.fromCharCode(event.which).toLowerCase();
@@ -206,11 +195,12 @@ $("body").keyup(
             game.startGame(key_pressed);
         }
         else{
+            document.getElementById("guessedDiv").textContent = "";
             game.displayBoard();
             game.playing = true;
             document.getElementById("guessesLeftDiv").textContent = 
                 "REMAINING GUESSES: " + game.remainingGuesses;
-
+            
         }
     }
 );

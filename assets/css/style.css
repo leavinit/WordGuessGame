@@ -1,0 +1,33 @@
+
+
+#gameDiv {
+    background-color: #0A5199;
+    padding: 50px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 2em;
+
+}
+
+#boardDiv{
+    background-color: #D81C00;
+    padding: 50px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 2em;
+    text-align: center;
+}
+
+#guessedDiv{
+    background-color: #D86500;
+    padding: 50px;
+}
+
+#guessesLeftDiv{
+    background-color: #0A5199;
+    padding: 50px;
+    text-align: center;
+}
+
+#winsLossesDiv{
+    background-color: #0A5199;
+    padding: 50px;
+}
